@@ -4,7 +4,7 @@
 
 A packaged collection of various ROM manipulation tools.
 
-Currently includes **[tochd][td]**.
+Currently includes **[tochd][td]**, **[maxcso][cso]**.
 
 ## Usage
 
@@ -14,4 +14,5 @@ docker run -it --rm -v "$(pwd):/app" <TODO: fill this>
 
 If all goes correctly, you'll get a "no tools executed" message. Run the ones you need.
 
-[td]: https://github.com/thingsiplay/tochd
+[td]:  https://github.com/thingsiplay/tochd
+[cso]: https://github.com/unknownbrackets/maxcso
