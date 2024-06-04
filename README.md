@@ -4,7 +4,7 @@
 
 A packaged collection of various ROM manipulation tools.
 
-Currently includes **[tochd][td]**, **[maxcso][cso]**.
+Currently includes **[tochd][td]**, **[maxcso][cso]** and **[PSXPackager][psx]**.
 
 ## Usage
 
@@ -16,3 +16,4 @@ If all goes correctly, you'll get a "no tools executed" message. Run the ones yo
 
 [td]:  https://github.com/thingsiplay/tochd
 [cso]: https://github.com/unknownbrackets/maxcso
+[psx]: https://github.com/RupertAvery/PSXPackager
