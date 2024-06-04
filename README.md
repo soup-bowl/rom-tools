@@ -2,7 +2,7 @@
 
 A packaged collection of various ROM manipulation tools.
 
-Currently includes **[tochd][td]**, **[maxcso][cso]** and **[PSXPackager][psx]**.
+Currently includes **[tochd][td]** (chdman), **[maxcso][cso]** and **[PSXPackager][psx]**.
 
 ## Usage
 
