@@ -1,7 +1,5 @@
 # ROM Tools
 
-**NOT USABLE YET**
-
 A packaged collection of various ROM manipulation tools.
 
 Currently includes **[tochd][td]**, **[maxcso][cso]** and **[PSXPackager][psx]**.
