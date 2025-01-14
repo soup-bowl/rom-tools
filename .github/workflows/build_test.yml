@@ -31,7 +31,9 @@ jobs:
           push: false
           load: true
           tags: rom-tools-test:${{ matrix.architecture }}
-          platforms: linux/${{ matrix.architecture }}
+          platforms: linux/amd64
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
       - name: Run Container-Structure-Test for ${{ matrix.architecture }}
         run: |
