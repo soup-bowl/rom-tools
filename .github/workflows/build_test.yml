@@ -29,6 +29,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: false
+          load: true
           tags: rom-tools-test:${{ matrix.architecture }}
           platforms: linux/${{ matrix.architecture }}
 
