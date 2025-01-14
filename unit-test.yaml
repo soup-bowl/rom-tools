@@ -1,0 +1,37 @@
+schemaVersion: '2.0.0'
+fileExistenceTests:
+  - name: 'Check operation area exists'
+    path: '/app'
+    shouldExist: true
+commandTests:
+  - name: "Check psxpackager is installed and runnable"
+    command: "psxpackager"
+    args: ["--help"]
+    exitCode: 0
+    expectedError:
+      - ".*psxpackager.*"
+      - ".*RupertAvery.*"
+  - name: "Check chdman (needed for tochd) is installed and runnable"
+    command: "chdman"
+    args: ["--help"]
+    exitCode: 1
+    expectedOutput:
+      - ".*MAME Compressed Hunks of Data*"
+  - name: "Check tochd is installed and runnable"
+    command: "tochd"
+    args: ["--help"]
+    exitCode: 0
+    expectedOutput:
+      - ".*Convert game ISO and archives to CD/DVD CHD for emulation..*"
+  - name: "Check maxcso is installed and runnable"
+    command: "maxcso"
+    args: ["--help"]
+    exitCode: 1
+    expectedError:
+      - ".*Multiple files may be specified.*"
+      - ".*Inputs can be iso or cso files.*"
+  - name: "No argument entrypoint works"
+    command: "/opt/entrypoint.sh"
+    exitCode: 1
+    expectedOutput:
+      - ".*Error: No tools were executed.*"
