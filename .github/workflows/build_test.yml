@@ -1,0 +1,65 @@
+name: Build Container (test)
+
+on:
+  push:
+    branches:
+    - main
+    paths:
+    - "Dockerfile"
+    - "entrypoint.sh"
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        architecture: [amd64, arm64]
+    steps:
+      - name: Checkout Codebase
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Image for ${{ matrix.architecture }}
+        uses: docker/build-push-action@v5
+        with:
+          push: false
+          tags: rom-tools-test:${{ matrix.architecture }}
+          platforms: linux/${{ matrix.architecture }}
+
+      - name: Run Container-Structure-Test for ${{ matrix.architecture }}
+        run: |
+          wget https://github.com/GoogleContainerTools/container-structure-test/releases/download/v1.16.0/container-structure-test-linux-amd64 \
+            -O container-structure-test && chmod +x container-structure-test
+          ./container-structure-test test --image rom-tools-test:${{ matrix.architecture }} --config unit-test.yaml
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Codebase
+      uses: actions/checkout@v4
+
+    - name: Login to ghcr.io
+      run: echo ${{ secrets.CR_PAT }} | docker login ghcr.io -u soup-bowl --password-stdin
+
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v3
+
+    - name: Set up Docker Buildx
+      id: buildx
+      uses: docker/setup-buildx-action@v3
+
+    # - name: Build
+    #   uses: docker/build-push-action@v5
+    #   with:
+    #     push: true
+    #     tags: ghcr.io/soup-bowl/rom-tools:latest
+    #     platforms: linux/amd64,linux/arm64
+    #     cache-from: type=gha
+    #     cache-to: type=gha,mode=max
