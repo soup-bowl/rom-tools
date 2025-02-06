@@ -11,13 +11,9 @@ ARG MAXCSO_VERSION=1.13.0
 
 RUN apt-get update && \
 	apt-get install -y --no-install-recommends liblz4-dev libuv1-dev pkgconf zlib1g-dev && \
-	apt-get clean
-
-ADD https://github.com/unknownbrackets/maxcso/archive/refs/tags/v${MAXCSO_VERSION}.zip /tmp/scripts.zip
-	
-RUN unzip /tmp/scripts.zip -d /tmp/build && \
-	mkdir /opt/build && \
-	mv /tmp/build/maxcso*/* /opt/build
+	apt-get clean && \
+	mkdir -p /opt/build && \
+	git clone https://github.com/unknownbrackets/maxcso.git --branch v${MAXCSO_VERSION} /opt/build
 
 WORKDIR /opt/build
 RUN make
@@ -29,13 +25,9 @@ ARG PSXP_VERSION=1.6.3
 
 RUN apt-get update && \
 	apt-get install -y --no-install-recommends build-essential unzip && \
-	apt-get clean
-
-ADD https://github.com/RupertAvery/PSXPackager/archive/refs/tags/v${PSXP_VERSION}.zip /tmp/scripts.zip
-
-RUN unzip /tmp/scripts.zip -d /tmp/build && \
-	mkdir /opt/build && \
-	mv /tmp/build/*/* /opt/build
+	apt-get clean && \
+	mkdir -p /opt/build && \
+	git clone https://github.com/RupertAvery/PSXPackager --branch v${PSXP_VERSION} /opt/build
 
 WORKDIR /opt/build
 RUN make build-linux
@@ -44,10 +36,9 @@ FROM base AS tochd
 
 ARG TOCHD_VERSION=0.13
 
-ADD https://github.com/thingsiplay/tochd/archive/refs/tags/v${TOCHD_VERSION}.zip /tmp/scripts.zip
-
-RUN unzip /tmp/scripts.zip -d /tmp/ && \
-	mv /tmp/tochd*/tochd.py /tmp/tochd
+RUN mkdir -p /opt && \
+	git clone https://github.com/thingsiplay/tochd --branch v${TOCHD_VERSION} /opt && \
+	mv /opt/tochd.py /opt/tochd
 
 FROM base AS xiso
 
@@ -83,7 +74,7 @@ RUN apt-get update \
 	&& apt-get clean
 
 # maxcso installation
-COPY --from=tochd /tmp/tochd /usr/local/bin/tochd
+COPY --from=tochd /opt/tochd /usr/local/bin/tochd
 COPY --from=maxcso /opt/build/maxcso /usr/local/bin/maxcso
 COPY --from=psxp /opt/build/build/psxpackager-linux-x64 /opt/psxpackager
 COPY --from=xiso /opt/build/extract-xiso /usr/local/bin/extract-xiso
