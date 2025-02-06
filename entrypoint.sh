@@ -7,6 +7,7 @@ if [ $# -eq 0 ]; then
   echo " - tochd (chdman): https://thingsiplay.game.blog/tochd-converter"
   echo " - maxcso: https://github.com/unknownbrackets/maxcso"
   echo " - PSXPackager: https://github.com/RupertAvery/PSXPackager"
+  echo " - extract-xiso: https://github.com/XboxDev/extract-xiso"
   exit 1
 fi
 

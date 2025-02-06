@@ -47,7 +47,21 @@ ADD https://github.com/thingsiplay/tochd/archive/refs/tags/v${TOCHD_VERSION}.zip
 RUN unzip /tmp/scripts.zip -d /tmp/ && \
 	mv /tmp/tochd*/tochd.py /tmp/tochd
 
-# Build MAIN
+FROM ubuntu:24.04 AS xiso
+
+ARG XISO_VERSION=202501282328
+
+RUN apt-get update && \
+	apt-get install -y --no-install-recommends build-essential ca-certificates git unzip cmake make gcc && \
+	apt-get clean && \
+	git clone https://github.com/XboxDev/extract-xiso.git --branch build-${XISO_VERSION} /opt
+
+WORKDIR /opt/build
+
+RUN cmake .. && \
+	make
+
+# Build primary system
 FROM ubuntu:24.04
 
 LABEL \
@@ -70,8 +84,10 @@ RUN apt-get update \
 COPY --from=tochd /tmp/tochd /usr/local/bin/tochd
 COPY --from=maxcso /opt/build/maxcso /usr/local/bin/maxcso
 COPY --from=psxp /opt/build/build/psxpackager-linux-x64 /opt/psxpackager
+COPY --from=xiso /opt/build/extract-xiso /usr/local/bin/extract-xiso
 RUN	chmod +x /usr/local/bin/maxcso && \
-	chmod +x /usr/local/bin/tochd
+	chmod +x /usr/local/bin/tochd && \
+	chmod +x /usr/local/bin/extract-xiso
 
 ENV PATH="${PATH}:/opt/psxpackager"
 

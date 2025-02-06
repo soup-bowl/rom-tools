@@ -2,7 +2,7 @@
 
 A packaged collection of various ROM manipulation tools.
 
-Currently includes **[tochd][td]** (chdman), **[maxcso][cso]** and **[PSXPackager][psx]**. Built for **AMD64** and **ARM64** (untested)·
+Currently includes **[tochd][td]** (chdman), **[maxcso][cso]**, **[PSXPackager][psx]** and **[extract-xiso][xso]**. Built for **AMD64** and **ARM64** (untested)·
 
 ## Usage
 
@@ -24,3 +24,4 @@ container-structure-test test --config unit-test.yaml --image test-romtools
 [td]:  https://github.com/thingsiplay/tochd
 [cso]: https://github.com/unknownbrackets/maxcso
 [psx]: https://github.com/RupertAvery/PSXPackager
+[xso]: https://github.com/XboxDev/extract-xiso
