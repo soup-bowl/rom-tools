@@ -30,6 +30,13 @@ commandTests:
     expectedError:
       - ".*Multiple files may be specified.*"
       - ".*Inputs can be iso or cso files.*"
+  - name: "Check extract-xiso is installed and runnable"
+    command: "extract-xiso"
+    args: ["--help"]
+    exitCode: 1
+    expectedError:
+      - ".*Create xiso from file.*"
+      - ".*extract-xiso v.*"
   - name: "No argument entrypoint works"
     command: "/opt/entrypoint.sh"
     exitCode: 1
