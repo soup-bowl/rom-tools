@@ -1,10 +1,16 @@
+FROM ubuntu:24.04 AS base
+
+RUN apt-get update && \
+	apt-get install -y --no-install-recommends build-essential ca-certificates git unzip && \
+	apt-get clean
+
 # Build maxcso
-FROM ubuntu:24.04 AS maxcso
+FROM base AS maxcso
 
 ARG MAXCSO_VERSION=1.13.0
 
 RUN apt-get update && \
-	apt-get install -y --no-install-recommends build-essential liblz4-dev libuv1-dev pkgconf unzip zlib1g-dev && \
+	apt-get install -y --no-install-recommends liblz4-dev libuv1-dev pkgconf zlib1g-dev && \
 	apt-get clean
 
 ADD https://github.com/unknownbrackets/maxcso/archive/refs/tags/v${MAXCSO_VERSION}.zip /tmp/scripts.zip
@@ -34,25 +40,21 @@ RUN unzip /tmp/scripts.zip -d /tmp/build && \
 WORKDIR /opt/build
 RUN make build-linux
 
-FROM ubuntu:24.04 AS tochd
+FROM base AS tochd
 
 ARG TOCHD_VERSION=0.13
-
-RUN apt-get update && \
-	apt-get install -y --no-install-recommends unzip && \
-	apt-get clean
 
 ADD https://github.com/thingsiplay/tochd/archive/refs/tags/v${TOCHD_VERSION}.zip /tmp/scripts.zip
 
 RUN unzip /tmp/scripts.zip -d /tmp/ && \
 	mv /tmp/tochd*/tochd.py /tmp/tochd
 
-FROM ubuntu:24.04 AS xiso
+FROM base AS xiso
 
 ARG XISO_VERSION=202501282328
 
 RUN apt-get update && \
-	apt-get install -y --no-install-recommends build-essential ca-certificates git unzip cmake make gcc && \
+	apt-get install -y --no-install-recommends cmake make gcc && \
 	apt-get clean && \
 	git clone https://github.com/XboxDev/extract-xiso.git --branch build-${XISO_VERSION} /opt
 
