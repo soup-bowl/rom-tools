@@ -45,7 +45,7 @@ FROM base AS xiso
 ARG XISO_VERSION=202501282328
 
 RUN apt-get update && \
-	apt-get install -y --no-install-recommends cmake make gcc && \
+	apt-get install -y --no-install-recommends cmake gcc make && \
 	apt-get clean && \
 	git clone https://github.com/XboxDev/extract-xiso.git --branch build-${XISO_VERSION} /opt
 
