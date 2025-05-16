@@ -42,7 +42,7 @@ RUN mkdir -p /opt && \
 
 FROM base AS xiso
 
-ARG XISO_VERSION=202501282328
+ARG XISO_VERSION=202505152050
 
 RUN apt-get update && \
 	apt-get install -y --no-install-recommends cmake gcc make && \
